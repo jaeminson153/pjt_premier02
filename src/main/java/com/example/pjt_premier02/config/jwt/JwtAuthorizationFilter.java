@@ -37,12 +37,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 			throws IOException, ServletException {
 
 		log.info("인가가 필요한 주소 요청이 실행되는 메소드: doFilterInternal()");
-
+		System.out.println("==============================::7:::1");   
 
 		// 1. 인가가 필요한 요청이 전달된다.
 		String accessToken = request.getHeader("Authorization");
 		log.info("Authorization: {}", accessToken);
-
+		System.out.println("==============================::7:::2");
 
 		// 2. Header 확인
 		// Header가 비어 있거나, 비어있지 않지만 "Bearer" 방식이 아니면 반환한다.
@@ -52,18 +52,18 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 			return;
 		}
 
-
+		System.out.println("==============================::7:::3");
 		// 3. JWT 토큰을 검증해서 정상적인 사용자인지, 권한이 맞는지 확인
 		// JWT 토큰 검증을 해서 정상적인 사용자인 확인 => 정상적인 요청인 경우
 		String jwtToken = request.getHeader("Authorization").replace("Bearer ", "");
-		
+		System.out.println("==============================::7:::4");
 		try {
 			//만료 여부 포함 거믕
 		String username = JWT.require(Algorithm.HMAC512("mySecurityCos")).build().verify(jwtToken)
 				.getClaim("memberEmail").asString();
 		log.info("username=>{}", username);
 
-
+		System.out.println("==============================::7:::5");
 		// 서명이 정상적으로 처리되었으면
 		if (username != null) {
 			// spring security가 수행해주는 권한 처리를 위해 아래와 같이 토큰을 만들어

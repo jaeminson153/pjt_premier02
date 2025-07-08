@@ -21,7 +21,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @Entity
-@Table(name = "board")
+@Table(name = "club")
 public class ClubEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "club_seq_generator")
@@ -33,9 +33,8 @@ public class ClubEntity {
 	private String stadium;
 	private String headCoach;
 	private Integer captain;
-	private String imfomation;
+	private String infomation;
 	private String imgPath;	
-	private String upload;
-	
+		
 }
 

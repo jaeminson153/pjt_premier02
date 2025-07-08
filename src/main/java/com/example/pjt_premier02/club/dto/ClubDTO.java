@@ -25,7 +25,7 @@ public class ClubDTO {
 	private String stadium;
 	private String headCoach;
 	private Integer captain;
-	private String imfomation;
+	private String infomation;
 	private String imgPath;	
 	
 	// 클라이언트 MultipartFile 보냄 ->  DB에 저장 String 
@@ -46,8 +46,7 @@ public class ClubDTO {
 				.stadium(stadium)
 				.headCoach(headCoach)
 				.captain(captain)
-				.imfomation(imfomation)
-				.upload(upload)
+				.infomation(infomation)
 				.imgPath(imgPath)
 				.build();
 	}	
@@ -62,8 +61,7 @@ public class ClubDTO {
 				.stadium(clubEntity.getStadium())
 				.headCoach(clubEntity.getHeadCoach())
 				.captain(clubEntity.getCaptain())
-				.imfomation(clubEntity.getImfomation())				
-				.upload(clubEntity.getUpload())
+				.infomation(clubEntity.getInfomation())				
 				.imgPath(clubEntity.getImgPath())
 				.build();
 	}	
