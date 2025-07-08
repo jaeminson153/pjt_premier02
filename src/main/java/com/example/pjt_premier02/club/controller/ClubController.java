@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.pjt_premier02.board.dto.BoardDTO;
 import com.example.pjt_premier02.club.dto.ClubDTO;
 import com.example.pjt_premier02.club.repository.ClubRepository;
 import com.example.pjt_premier02.club.service.ClubService;
