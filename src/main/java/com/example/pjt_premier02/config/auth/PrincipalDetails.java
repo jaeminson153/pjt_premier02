@@ -6,8 +6,8 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.pjt_premier02.members.dto.AuthInfo;
-
+//import com.example.pjt_premier02.members.dto.AuthInfo; //// old
+import com.example.pjt_premier02.admin.dto.AuthInfo;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -34,22 +34,24 @@ public class PrincipalDetails implements UserDetails{
 		//기본 권한 추가 (USER)
 		collect.add(() -> "ROLE_USER");
 		
-		//추가 권한(ADMIN일 경우만)
-		if(authInfo.getAuthRole().toString().equals("ADMIN")) {
-			collect.add(() -> "ROLE_ADMIN");
-		}			
+		//추가 권한(ADMIN일 경우만)  //// old 
+//		if(authInfo.getAuthRole().toString().equals("ADMIN")) {
+//			collect.add(() -> "ROLE_ADMIN");
+//		}			
 		return collect;
 	}
 
 	@Override
 	public String getPassword() {		
-		return authInfo.getMemberPass();
+		//return authInfo.getMemberPass();
+		return authInfo.getPwd();
 	}
 
 	@Override
 	public String getUsername() {
-		log.info("PrincipalDetails -> getUsername()-> memberEmail:{}",  authInfo.getMemberEmail());
-		return authInfo.getMemberEmail();
+		log.info("PrincipalDetails -> getUsername()-> adminId:{}",  authInfo.getAdminId());
+		//return authInfo.getMemberEmail();
+		return authInfo.getAdminId();
 	}
 	
 	// 계정의 만료 여부를 리턴합니다.

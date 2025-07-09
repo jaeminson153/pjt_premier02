@@ -1,12 +1,10 @@
 package com.example.pjt_premier02.config.jwt;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,10 +13,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.example.pjt_premier02.admin.dto.AdminDTO;
+import com.example.pjt_premier02.admin.dto.AuthInfo;
+import com.example.pjt_premier02.admin.service.AuthService;
 import com.example.pjt_premier02.config.auth.PrincipalDetails;
-import com.example.pjt_premier02.members.dto.AuthInfo;
-import com.example.pjt_premier02.members.dto.MembersDTO;
-import com.example.pjt_premier02.members.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.FilterChain;
@@ -60,20 +58,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			//{"memberEmail": "dong@google.com", "memberPass":"1234"}
 			// 스트림을 통해서 읽어온 json을 MembersdTO 객체로 변경한다.
 			ObjectMapper om = new ObjectMapper();
-			MembersDTO membersDTO = om.readValue(request.getInputStream(), MembersDTO.class);
-			log.info("memberEmail:{}, memberPass:{}", 
-					membersDTO.getMemberEmail(), membersDTO.getMemberPass());
+			AdminDTO adminDTO = om.readValue(request.getInputStream(), AdminDTO.class);
+			log.info("adminId:{}, memberPass:{}", adminDTO.getAdminId(), adminDTO.getPwd());
 			
 			UsernamePasswordAuthenticationToken authenticationToken 
-			 = new UsernamePasswordAuthenticationToken(membersDTO.getMemberEmail(), membersDTO.getMemberPass());
+			 = new UsernamePasswordAuthenticationToken(adminDTO.getAdminId(), adminDTO.getPwd());
 			
 			authentication = authManager.authenticate(authenticationToken);
 			
 			log.info("authentication: {}", authentication.getPrincipal());
 			
 			PrincipalDetails principalDetails = (PrincipalDetails)authentication.getPrincipal();			
-			log.info("로그인 완료됨(인증) : {}, {}, {}", principalDetails.getUsername(),
-					principalDetails.getPassword(), principalDetails.getAuthInfo().getAuthRole());
+			log.info("로그인 완료됨(인증) : {}, {}", principalDetails.getUsername(), principalDetails.getPassword());
 			    
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -94,7 +90,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		 AuthInfo authInfo = principalDetails.getAuthInfo(); 
 		    
 		 String accessToken = jwtTokenProvider.createAccessToken(authInfo);
-		 String refreshToken = jwtTokenProvider.createRefreshToken(authInfo.getMemberEmail());
+		 String refreshToken = jwtTokenProvider.createRefreshToken(authInfo.getAdminId());
 		
 		log.info("accessToken:{}", accessToken);
 		log.info("refreshToken: {}", refreshToken);
@@ -120,9 +116,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		response.setHeader("Access-Control-Expose-Headers", "Authorization, Authorization-refresh");
 		
 		final Map<String, Object> body = new HashMap<>();
-		body.put("memberName", principalDetails.getAuthInfo().getMemberName());
-		body.put("memberEmail", principalDetails.getAuthInfo().getMemberEmail());
-		body.put("authRole", principalDetails.getAuthInfo().getAuthRole());
+		body.put("name", principalDetails.getAuthInfo().getName());
+		body.put("adminId", principalDetails.getAuthInfo().getAdminId());
+		//body.put("authRole", principalDetails.getAuthInfo().getAuthRole());
 		// body.put("accessToken", accessToken);
 		// body.put("refreshToken", refreshToken);
 		

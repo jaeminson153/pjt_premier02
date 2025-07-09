@@ -1,4 +1,4 @@
-package com.example.pjt_premier02.members.dto;
+package com.example.pjt_premier02.admin.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,3 +11,4 @@ public class ChangePwdCommand {
 	private String currentPassword;
 	private String newPassword;	
 }
+

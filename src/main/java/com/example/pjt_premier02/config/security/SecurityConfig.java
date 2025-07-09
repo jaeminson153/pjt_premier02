@@ -16,11 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import com.example.pjt_premier02.admin.repository.AdminRepository;
+import com.example.pjt_premier02.admin.service.AuthService;
 import com.example.pjt_premier02.config.jwt.JwtAuthenticationFilter;
 import com.example.pjt_premier02.config.jwt.JwtAuthorizationFilter;
 import com.example.pjt_premier02.config.jwt.JwtTokenProvider;
-import com.example.pjt_premier02.members.repository.MembersRepository;
-import com.example.pjt_premier02.members.service.AuthService;
 
 
 //[1] POSTMAN에서 테스트
@@ -37,7 +37,7 @@ public class SecurityConfig {
 
 
 	@Autowired
-	private MembersRepository membersRepository;
+	private AdminRepository adminRepository;
 
 
 	// @Autowired
@@ -87,15 +87,13 @@ public class SecurityConfig {
 
 		// Spring Boot 3.XX에서 권장
 		http.csrf(AbstractHttpConfigurer::disable);
-
-		System.out.println("==============================::2");
+		
 		// [2] CORS 필터 등록 (요청 출처 도메인 제어 등 처리)
 		http.cors(cors -> cors.configurationSource(corsSource)); // CORS
-		System.out.println("==============================::3");
 
 		// [3] 기본 제공 로그인 폼 사용 비활성화 (커스텀 인증 방식 사용)
 		http.formLogin(formLogin -> formLogin.disable());
-		System.out.println("==============================::4");
+		
 
 		// [4]세션 관리 설정
 		// 인증사용, Security Filter에 등록 , @CrossOrigin (인증X)
@@ -104,7 +102,7 @@ public class SecurityConfig {
 		// 세션을 생성하지 않고, 기존 세션도 사용하지 않음 (JWT 기반 무상태(stateless) 인증 방식 사용)
 		sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-		System.out.println("==============================::5");
+		
 		// [5] 요청에 의한 권한 설정검사 시작
 		http.authorizeHttpRequests(authorize -> authorize
 				// 특정 URL은 인증 없이 허용
@@ -113,7 +111,7 @@ public class SecurityConfig {
 				// 그외 모든 요청에 대해서 인증(로그인)이 되어야 한다.
 				.anyRequest().authenticated());
 
-		System.out.println("==============================::6");   
+		   
 		// addFilter() : FilterComparator에 등록되어 있는 Filter들을 활성화할 때 사용
 		// addFilterBefore(), addFilterAfter() : CustomFilter를 등록할 때 사용
 		// Bean 등록 방식 대신 SecurityFilterChain 안에서 직접 JwtAuthenticationFilter 객체를 생성하고
@@ -129,7 +127,7 @@ public class SecurityConfig {
 
 		// [7] 인가 필터 등록 (JWT 토큰이 유효한지 확인하고, 권한 처리)
 		JwtAuthorizationFilter jwtAuthorizationFilter = 
-				new JwtAuthorizationFilter(authenticationManager,	membersRepository);
+				new JwtAuthorizationFilter(authenticationManager,	adminRepository);
 		http.addFilter(jwtAuthorizationFilter);
 
 

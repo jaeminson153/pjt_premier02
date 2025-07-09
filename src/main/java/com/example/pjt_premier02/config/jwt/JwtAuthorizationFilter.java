@@ -13,9 +13,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.pjt_premier02.config.auth.PrincipalDetails;
-import com.example.pjt_premier02.members.dto.AuthInfo;
-import com.example.pjt_premier02.members.entity.MembersEntity;
-import com.example.pjt_premier02.members.repository.MembersRepository;
+import com.example.pjt_premier02.admin.dto.AuthInfo;
+import com.example.pjt_premier02.admin.entity.AdminEntity;
+import com.example.pjt_premier02.admin.repository.AdminRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,11 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
-	private MembersRepository membersRepository;
+	private AdminRepository adminRepository;
 
-	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, MembersRepository membersRepository) {
+	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, AdminRepository adminRepository) {
 		super(authenticationManager);
-		this.membersRepository = membersRepository;
+		this.adminRepository = adminRepository;
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		try {
 			//만료 여부 포함 거믕
 		String username = JWT.require(Algorithm.HMAC512("mySecurityCos")).build().verify(jwtToken)
-				.getClaim("memberEmail").asString();
+				.getClaim("adminId").asString();
 		log.info("username=>{}", username);
 
 		System.out.println("==============================::7:::5");
@@ -68,11 +68,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		if (username != null) {
 			// spring security가 수행해주는 권한 처리를 위해 아래와 같이 토큰을 만들어
 			// Authentication객체를 강제로 만들고 세션에 넣어준다.
-			Optional<MembersEntity> optMembersEntity = membersRepository.findById(username);
-			MembersEntity membersEntity = optMembersEntity.get();
-			log.info("************{}", membersEntity.getMemberEmail());
-			AuthInfo authInfo = new AuthInfo(membersEntity.getMemberEmail(), membersEntity.getMemberPass(),
-					membersEntity.getMemberName(), membersEntity.getAuthRole());
+			Optional<AdminEntity> optMembersEntity = adminRepository.findById(username);
+			AdminEntity adminEntity = optMembersEntity.get();
+			log.info("************{}", adminEntity.getAdminId());
+			AuthInfo authInfo = new AuthInfo(adminEntity.getAdminId(), adminEntity.getPwd(), adminEntity.getName());
 			PrincipalDetails principalDetails = new PrincipalDetails(authInfo);
 
 

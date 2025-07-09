@@ -1,19 +1,25 @@
-package com.example.pjt_premier02.members.service;
+package com.example.pjt_premier02.admin.service;
+
 import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.pjt_premier02.members.entity.MemberRefreshTokenEntity;
-import com.example.pjt_premier02.members.repository.MemberRefreshTokenRepository;
+import com.example.pjt_premier02.admin.entity.AdminRefreshTokenEntity;
+import com.example.pjt_premier02.admin.repository.AdminRefreshTokenRepository;
+
 
 import lombok.RequiredArgsConstructor;
+
 @Transactional
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
-   private final MemberRefreshTokenRepository tokenRepository;
-   public void saveRefreshToken(String email, String refreshToken, String ip, String userAgent) {
-       tokenRepository.findByMemberEmail(email).ifPresentOrElse(
+	
+   private final AdminRefreshTokenRepository tokenRepository;
+   
+   public void saveRefreshToken(String adminId, String refreshToken, String ip, String userAgent) {
+       tokenRepository.findByAdminId(adminId).ifPresentOrElse(
            existing -> {
                existing.setRefreshToken(refreshToken);
                existing.setIpAddress(ip);
@@ -22,8 +28,8 @@ public class AuthServiceImpl implements AuthService{
                tokenRepository.save(existing);
            },
            () -> {
-               tokenRepository.save(MemberRefreshTokenEntity.builder()
-                       .memberEmail(email)
+               tokenRepository.save(AdminRefreshTokenEntity.builder()
+                       .adminId(adminId)
                        .refreshToken(refreshToken)
                        .ipAddress(ip)
                        .userAgent(userAgent)
@@ -32,14 +38,15 @@ public class AuthServiceImpl implements AuthService{
            }
        );
    }
-   public boolean validateRefreshToken(String email, String token) {
-       return tokenRepository.findByMemberEmail(email)
+   public boolean validateRefreshToken(String adminId, String token) {
+       return tokenRepository.findByAdminId(adminId)
                .map(stored -> stored.getRefreshToken().equals(token))
                .orElse(false);
    }
-   public void deleteRefreshToken(String email) {    	   
-       tokenRepository.deleteByMemberEmail(email);
+   public void deleteRefreshToken(String adminId) {    	   
+       tokenRepository.deleteByAdminId(adminId);
    }
+   
 }
 
 
