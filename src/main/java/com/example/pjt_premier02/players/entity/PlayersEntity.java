@@ -1,7 +1,10 @@
 package com.example.pjt_premier02.players.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,10 +20,12 @@ import lombok.ToString;
 @Setter
 @Getter
 @Entity
-@Table(name = "players")
+@Table(name = "player")
 public class PlayersEntity {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_seq_generator")
+	@SequenceGenerator(name = "player_seq_generator", sequenceName = "player_no_seq", allocationSize = 1)
 	private Integer playerNo; // 선수번호
 	private Integer clubNo; // 구단번호
 	private String name; // 이름
@@ -32,4 +37,5 @@ public class PlayersEntity {
 	private Integer backNumber; // 등번호
 	private String imgPath; // 사진경로
 		
+
 }

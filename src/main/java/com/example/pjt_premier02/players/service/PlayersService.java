@@ -1,10 +1,9 @@
 package com.example.pjt_premier02.players.service;
 
+import com.example.pjt_premier02.players.dto.PlayersDTO;
 import java.util.List;
 
-import com.example.pjt_premier02.players.dto.PlayersDTO;
-
 public interface PlayersService {
-	public PlayersDTO getByPlayerNo(Integer playerNo);
-	public List<PlayersDTO> getByClubNo(Integer clubNo);
+    List<PlayersDTO> getByClubNo(Integer clubNo);
+    PlayersDTO getByClubNoAndPlayerNo(Integer clubNo, Integer playerNo);
 }
