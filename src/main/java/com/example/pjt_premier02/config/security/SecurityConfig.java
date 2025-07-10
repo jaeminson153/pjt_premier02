@@ -136,7 +136,7 @@ public class SecurityConfig {
 	}
 }// end class
 
-
+ 
 /*
  * Spring Boot 내부적으로 CorsConfigurationSource 타입의 Bean이 이미 하나 존재하고, 사용자가 별도로 또 하나
  * 정의했기 때문에 2개 중 어떤 것을 주입해야 하는지 결정하지 못해 오류가 발생한다.

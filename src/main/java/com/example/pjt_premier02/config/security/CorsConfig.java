@@ -17,7 +17,7 @@ public class CorsConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration config = new CorsConfiguration();
 		
-		//클라이언트에서 쿠키/인증정보 포함 허용 (예: withCredentials: true 사용 시 필요)
+		//클라이언트에서 쿠키/인증정보 포함 허용 (예: withCredentials: true 사용 시 필요) 
 		config.setAllowCredentials(true); 
 	
 		config.setAllowedOrigins(List.of("http://localhost:3000","http://127.0.0.1:3001")); //프론트엔드 주소

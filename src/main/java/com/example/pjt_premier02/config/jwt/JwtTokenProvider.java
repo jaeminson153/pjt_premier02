@@ -16,7 +16,7 @@ public class JwtTokenProvider {
                .withClaim("adminId", authInfo.getAdminId())
                //.withClaim("authRole", authInfo.getAuthRole().toString())
                .sign(Algorithm.HMAC512(secretKey));
-   }
+   } 
    // refreshToken: 2주 유효
    public String createRefreshToken(String email) {
        return JWT.create()
