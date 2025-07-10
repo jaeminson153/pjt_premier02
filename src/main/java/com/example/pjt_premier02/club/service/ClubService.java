@@ -7,4 +7,6 @@ import com.example.pjt_premier02.club.dto.ClubDTO;
 public interface ClubService {
 	public List<ClubDTO> listClub();
 	public ClubDTO contentClub(long clubNo);
+	
+	public void updateClub(Long clubNo, ClubDTO clubDto);
 }

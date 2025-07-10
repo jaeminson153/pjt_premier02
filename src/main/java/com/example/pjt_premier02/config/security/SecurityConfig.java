@@ -104,12 +104,13 @@ public class SecurityConfig {
 
 		
 		// [5] 요청에 의한 권한 설정검사 시작
+		
 		http.authorizeHttpRequests(authorize -> authorize
 				// 특정 URL은 인증 없이 허용
 				// .requestMatchers("/api/v1/home", "/api/v1/join", "/api/v1/login").permitAll()
-				.requestMatchers("/","/league/list","/league/view/**","/club/list","/club/view/**","/images/**", "/member/signup", "/board/list/**", "/board/view/**","/auth/refresh","/board/contentdownload/**", "/players/**").permitAll()
+			.requestMatchers("/","/league/list","/league/view/**","/club/list","/club/view/**","/images/**", "/member/signup", "/board/list/**", "/board/view/**","/auth/refresh","/board/contentdownload/**", "/players/**").permitAll()
 				// 그외 모든 요청에 대해서 인증(로그인)이 되어야 한다.
-				.anyRequest().authenticated());
+			.anyRequest().authenticated());
 
 		   
 		// addFilter() : FilterComparator에 등록되어 있는 Filter들을 활성화할 때 사용

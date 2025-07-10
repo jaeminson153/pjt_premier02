@@ -96,6 +96,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 
         } catch (Exception e) {
+        	
             log.error("❌ JWT 처리 중 예외 발생", e);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
