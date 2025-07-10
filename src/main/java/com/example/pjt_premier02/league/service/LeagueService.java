@@ -8,4 +8,5 @@ public interface LeagueService {
 	
 	public List<LeagueDTO> listLeague();
 	public LeagueDTO contentLeague(long clubNo);
+	public void upProcess(List<LeagueDTO> leagueList);
 }
