@@ -57,21 +57,45 @@ public class PlayersServiceImpl implements PlayersService {
             String uuid = UUID.randomUUID().toString();
             String newFileName = uuid + "_" + originalName;
 
-            String uploadDir = "C:/web__ai/first-project-new/public/images/players/";
+            // 클럽 번호에 맞는 폴더를 동적으로 설정
+            String clubFolderName = getClubFolderName(clubNo);  // 클럽 번호에 맞는 폴더 이름 가져오기
+            String uploadDir = "C:/web_ai/react-workspace/first-project-new/public/images/players/" + clubFolderName + "/";
+
+            // 폴더가 없으면 생성
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs(); // 디렉토리 생성
+            }
+
+            // 이미지 저장
             File saveFile = new File(uploadDir + newFileName);
             try {
                 file.transferTo(saveFile);
-                entity.setImgPath("/images/players/" + newFileName);
+                // 이미지 경로를 클럽 이름에 맞게 저장
+                entity.setImgPath("/images/players/" + clubFolderName + "/" + newFileName);
             } catch (IOException e) {
                 throw new RuntimeException("파일 저장 실패", e);
             }
         }
 
         // ✅ 저장
-        playersRepository.save(entity); // 이때는 UPDATE가 정상 수행됨
+        playersRepository.save(entity);
 
         return toDTO(entity);
     }
+
+    // 클럽 번호에 맞는 폴더 이름 반환 (예: 1 -> "liverpool", 2 -> "manchester_city")
+    private String getClubFolderName(Integer clubNo) {
+        switch (clubNo) {
+            case 1: return "liverpool";
+            case 2: return "manchester_city";
+            case 3: return "chelsea";
+            case 4: return "tottenham";
+            // 추가 클럽 번호에 대한 처리
+            default: return "unknown"; // 알 수 없는 클럽
+        }
+    }
+
 
 
     // 엔티티를 DTO로 변환

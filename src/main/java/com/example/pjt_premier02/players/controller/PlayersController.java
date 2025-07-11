@@ -36,7 +36,7 @@ public class PlayersController {
         return ResponseEntity.ok(dto);
     }
 
-    @PutMapping("/update/{clubNo}/{playerNo}")
+    @PostMapping("/update/{clubNo}/{playerNo}")
     public ResponseEntity<PlayersDTO> updatePlayerInfo(
             @PathVariable("clubNo") Integer clubNo,
             @PathVariable("playerNo") Integer playerNo,
