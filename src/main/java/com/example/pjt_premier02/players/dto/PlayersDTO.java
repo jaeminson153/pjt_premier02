@@ -1,5 +1,7 @@
 package com.example.pjt_premier02.players.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.*;
 
 @Getter
@@ -18,4 +20,7 @@ public class PlayersDTO {
 	private Integer weight;
 	private Integer backNumber;
 	private String imgPath;
+
+	private MultipartFile file;
+
 }
