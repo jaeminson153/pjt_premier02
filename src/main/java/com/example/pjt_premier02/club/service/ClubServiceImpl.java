@@ -68,7 +68,7 @@ public class ClubServiceImpl implements ClubService {
                 String newFileName = uuid + "_" + originalName;
 
                 // ✅ 실제 저장 경로 (React 프로젝트 public 아래)
-                String uploadDir = "C:/web__ai/first-project-new/public/images/clubs/";
+                String uploadDir = "C:/web_ai/react-workspace/first-project-new/public/images/clubs/";
                 File saveFile = new File(uploadDir + newFileName);
 
                 try {
